@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tic Tac Toe - Minimax</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="did-you-know-box">
+                <h2>Did You Know? <span class="icon">💡</span></h2>
+                <div class="fact-carousel">
+                    <div class="fact-slide active">
+                        <div class="fact-content">
+                            
+                            <p>The Minimax algorithm was originally developed for chess in 1928, making computer games smarter!</p>
+                        </div>
+                    </div>
+                    <div class="fact-slide">
+                        <div class="fact-content">
+                            
+                            <p>Perfect play in Tic Tac Toe always leads to a draw - that's why it's called a "solved" game!</p>
+                        </div>
+                    </div>
+                    <div class="fact-slide">
+                        <div class="fact-content">
+                            
+                            <p>The center square is the most powerful position - it's part of 4 possible winning lines!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="fun-fact-generator">
+                <button id="generate-fact">Generate Fun Fact</button>
+                <div class="fun-fact-content"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="tic-tac-trivia">
+                <h3>Tic Tac Trivia <span class="icon">🧩</span></h3>
+                <div class="trivia-content">
+                    <!-- Trivia content will be populated by JavaScript -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="container">
+            <h1>Tic Tac Toe Using Minimax Algorithm</h1>
+
+            <!-- Turn Indicator -->
+            <section class="turn-indicator">
+                <div class="player-indicator active">Your Turn (X)</div>
+                <div class="player-indicator">
+                    <div class="ai-thinking">
+                        AI Thinking
+                        <div class="thinking-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Game Board -->
+            <section class="game-board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </section>
+
+            <!-- Status -->
+            <div class="status">Game in progress...</div>
+
+            <!-- Scoreboard -->
+            <section class="scoreboard">
+                <div class="score-item">
+                    <div class="score-label">You</div>
+                    <div class="score-value" id="player-score">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">Draws</div>
+                    <div class="score-value" id="draw-score">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">AI</div>
+                    <div class="score-value" id="ai-score">0</div>
+                </div>
+            </section>
+
+            <!-- Buttons -->
+            <section class="buttons">
+                <button id="restart-btn">Restart Game</button>
+                
+            </section>
+
+            <!-- Explanation Section -->
+            <section class="explanation">
+                <h2>How the Minimax Algorithm Works</h2>
+                <p>The Minimax algorithm is a decision-making algorithm used in two-player games like Tic Tac Toe. It evaluates all possible moves and chooses the one that maximizes the AI's chances of winning while minimizing the player's chances.</p>
+
+                <div class="algorithm-toggle">
+                    Show Algorithm Steps <span class="icon">▼</span>
+                </div>
+
+                <div class="algorithm-steps">
+                    <ul>
+                        <li>The algorithm simulates all possible moves for both the player and the AI.</li>
+                        <li>It builds a game tree representing all possible game states.</li>
+                        <li>Each terminal state (win/lose/draw) gets a score: +10 for AI win, -10 for player win, 0 for draw.</li>
+                        <li>Working backward, the AI chooses moves that lead to the highest score, assuming the player plays optimally.</li>
+                        <li>The algorithm prunes branches that won't affect the final decision, making it more efficient.</li>
+                    </ul>
+
+                    <p>Here's how it works:</p>
+                    <ul>
+                        <li>AI evaluates every valid move</li>
+                        <li>For each move, it simulates the opponent's optimal response</li>
+                        <li>This continues until reaching game-ending states</li>
+                        <li>The AI then selects the move with the best outcome, assuming perfect play from both sides</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar">
+            <div class="minimax-info">
+                <h3>Why You Can't Beat the AI (But Can Tie)</h3>
+                <p>Tic Tac Toe is a "solved" game, meaning perfect play always leads to a draw. Here's how the AI exploits this:</p>
+                <ul>
+                    <li>Instant Win Detection: Checks if it can win immediately</li>
+                    <li>Player Blocking: Stops your winning moves first</li>
+                    <li>Optimal Positioning: Prioritizes center > corners > edges</li>
+                    <li>Forced Draws: If you play perfectly, it mirrors your strategy</li>
+                </ul>
+            </div>
+
+            <h2>Tips to Win</h2>
+            <ul>
+                <li>Always start in the center or a corner.</li>
+                <li>Block your opponent's winning moves.</li>
+                <li>Force the AI into a draw if you can't win.</li>
+                <li>Practice makes perfect!</li>
+                <li>Try to create a fork (two winning paths).</li>
+            </ul>
+        </aside>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div class="result-modal">
+        <span class="emoji">🎮</span>
+        <h2>Game Over!</h2>
+        <p id="result-message">It's a draw!</p>
+        <button id="play-again-btn">Play Again</button>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Toggle Algorithm Visibility -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const algorithmToggle = document.querySelector('.algorithm-toggle');
+            const algorithmSteps = document.querySelector('.algorithm-steps');
+
+            algorithmToggle.addEventListener('click', () => {
+                algorithmSteps.classList.toggle('open');
+                algorithmToggle.classList.toggle('active');
+            });
+
+            document.getElementById('play-again-btn').addEventListener('click', () => {
+                document.querySelector('.result-modal').classList.remove('active');
+                document.querySelector('.overlay').classList.remove('active');
+                // Game reset logic goes here
+            });
+
+            // Fact Carousel
+            const slides = document.querySelectorAll('.fact-slide');
+            let currentSlide = 0;
+
+            function nextSlide() {
+                // Remove active class from current slide
+                slides[currentSlide].classList.remove('active');
+                
+                // Calculate next slide index
+                currentSlide = (currentSlide + 1) % slides.length;
+                
+                // Add active class to next slide
+                slides[currentSlide].classList.add('active');
+            }
+
+            // Initial state
+            slides[0].classList.add('active');
+            
+            // Change slide every 6 seconds (slightly longer for better readability)
+            setInterval(nextSlide, 6000);
+
+            // Tic Tac Trivia
+            const triviaFacts = [
+                "Chess and Tic Tac Toe both use the Minimax algorithm for AI opponents!",
+                "Game theory was first developed by mathematician John von Neumann in 1928.",
+                "The word 'algorithm' comes from Persian mathematician Al-Khwarizmi.",
+                "There are 362,880 possible ways to place pieces on a Tic Tac Toe board!",
+                "The first gaming computer was built in 1940 to play Nim, not Tic Tac Toe."
+            ];
+
+            const triviaContent = document.querySelector('.trivia-content');
+            triviaContent.textContent = triviaFacts[Math.floor(Math.random() * triviaFacts.length)];
+
+            // Fun Facts Generator
+            const funFacts = [
+                "The first computer program to play Tic Tac Toe was written in 1952!",
+                "There are 255,168 possible unique games of Tic Tac Toe.",
+                "The game is called 'Noughts and Crosses' in British English.",
+                "Ancient Romans played a similar game called 'Terni Lapilli'.",
+                "The Minimax algorithm ensures perfect play in many board games.",
+                "A perfect Tic Tac Toe match between two players always ends in a draw.",
+                "The center position is statistically the best first move.",
+                "Tic Tac Toe is considered a 'zero-sum' game in game theory."
+            ];
+
+            const generateFactBtn = document.getElementById('generate-fact');
+            const funFactContent = document.querySelector('.fun-fact-content');
+            let lastFactIndex = -1;
+
+            generateFactBtn.addEventListener('click', () => {
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * funFacts.length);
+                } while (randomIndex === lastFactIndex && funFacts.length > 1);
+                
+                lastFactIndex = randomIndex;
+                funFactContent.textContent = funFacts[randomIndex];
+                funFactContent.classList.remove('visible');
+                
+                // Trigger reflow
+                void funFactContent.offsetWidth;
+                
+                funFactContent.classList.add('visible');
+            });
+
+            // Enhanced Turn Indicators
+            const playerIndicator = document.querySelector('.player-indicator');
+            const aiThinking = document.querySelector('.ai-thinking');
+
+            // Add pulse animation class when it's player's turn
+            if (playerIndicator) {
+                playerIndicator.classList.add('active');
+            }
+
+            // Update game status text
+            function updateGameStatus(status) {
+                const statusElement = document.querySelector('.status');
+                statusElement.textContent = status;
+                statusElement.className = 'status';
+                
+                if (status.includes('won')) {
+                    statusElement.classList.add('win');
+                } else if (status.includes('draw')) {
+                    statusElement.classList.add('draw');
+                }
+            }
+
+            // Initial game status
+            updateGameStatus('Game in progress...');
+        });
+    </script>
+
+    <!-- Starfield Effect Script -->
+    <script>
+        const canvas = document.getElementById("starfield");
+        const ctx = canvas.getContext("2d");
+
+        let stars = [];
+        let mouseActive = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        function createStars(count) {
+            stars = [];
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5 + 0.5,
+                    dx: 0,
+                    dy: 0,
+                });
+            }
+        }
+
+        function updateStarVelocity() {
+            stars.forEach(star => {
+                const speed = mouseActive ? 0.5 : 0.05;
+                star.dx = (Math.random() - 0.5) * speed;
+                star.dy = (Math.random() - 0.5) * speed;
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            ctx.shadowBlur = 2;
+            ctx.shadowColor = "white";
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function updateStars() {
+            stars.forEach(star => {
+                star.x += star.dx;
+                star.y += star.dy;
+
+                // Wrap around edges
+                if (star.x < 0) star.x = canvas.width;
+                if (star.x > canvas.width) star.x = 0;
+                if (star.y < 0) star.y = canvas.height;
+                if (star.y > canvas.height) star.y = 0;
+            });
+        }
+
+        function animate() {
+            drawStars();
+            updateStars();
+            requestAnimationFrame(animate);
+        }
+
+        document.addEventListener("mousemove", () => {
+            if (!mouseActive) {
+                mouseActive = true;
+                updateStarVelocity();
+            }
+        });
+
+        document.addEventListener("mouseleave", () => {
+            mouseActive = false;
+            updateStarVelocity();
+        });
+
+        createStars(150);
+        updateStarVelocity();
+        animate();
+    </script>
+
+    <!-- Your Game Logic Script -->
+    <script src="scripts/app.js"></script>
+</body>
+</html>
